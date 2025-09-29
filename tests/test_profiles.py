@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 from app.main import app
 
 client = TestClient(app)
-#updated
+
 
 def test_create_profile():
     response = client.post(

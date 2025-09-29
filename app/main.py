@@ -19,7 +19,7 @@ def root():
 @app.post("/profiles/", response_model=Profile, status_code=201)
 def create_profile(profile: ProfileCreate):
     uuid = uuid4()
-    new_profile = Profile(id=uuid, **profile.dict())
+    new_profile = Profile(id=uuid, **profile.model_dump())
     profiles.append(new_profile)
     return new_profile
 
@@ -38,8 +38,8 @@ def get_profile(profile_id: UUID):
 def update_profile(profile_id: UUID, profile_update: ProfileUpdate):
     for idx, profile in enumerate(profiles):
         if profile.id == profile_id:
-            current_profile = profile.dict()
-            update_fields = profile_update.dict(exclude_unset=True)
+            current_profile = profile.model_dump()
+            update_fields = profile_update.model_dump(exclude_unset=True)
             current_profile.update(update_fields)
             updated_profile = Profile(**current_profile)
             profiles[idx] = updated_profile
